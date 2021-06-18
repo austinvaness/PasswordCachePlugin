@@ -19,8 +19,7 @@ namespace avaness.PasswordCache
 
         public void Init(object gameInstance)
         {
-            Harmony harmony = new Harmony("avaness.PasswordCache");
-            harmony.PatchAll();
+            new Harmony("avaness.PasswordCache").PatchAll(GetType().Assembly);
         }
 
         public void Update()
