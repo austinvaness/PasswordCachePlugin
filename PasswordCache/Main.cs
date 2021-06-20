@@ -5,6 +5,7 @@ using Sandbox.Graphics.GUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using VRage.Plugins;
 
@@ -19,7 +20,7 @@ namespace avaness.PasswordCache
 
         public void Init(object gameInstance)
         {
-            new Harmony("avaness.PasswordCache").PatchAll(GetType().Assembly);
+            new Harmony("avaness.PasswordCache").PatchAll(Assembly.GetExecutingAssembly());
         }
 
         public void Update()
