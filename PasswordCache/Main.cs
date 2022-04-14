@@ -2,9 +2,7 @@
 using Sandbox.Engine.Multiplayer;
 using Sandbox.Game.Screens;
 using Sandbox.Graphics.GUI;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using VRage.Plugins;
@@ -13,7 +11,7 @@ namespace avaness.PasswordCache
 {
     public class Main : IPlugin
     {
-        private static readonly Dictionary<string, string> passwords = new Dictionary<string, string>();
+        private static readonly Dictionary<ulong, string> passwords = new Dictionary<ulong, string>();
 
         public void Dispose()
         { }
@@ -38,7 +36,7 @@ namespace avaness.PasswordCache
 
         public static void OnPasswordEntered(MyGuiScreenServerPassword screen)
         {
-            if (TryGetServerId(out string id) && TryGetPasswordField(screen, out MyGuiControlTextbox textbox))
+            if (TryGetServerId(out ulong id) && TryGetPasswordField(screen, out MyGuiControlTextbox textbox))
             {
                 StringBuilder sb = new StringBuilder();
                 textbox.GetText(sb);
@@ -66,22 +64,22 @@ namespace avaness.PasswordCache
 
         private static bool TryGetPassword(out string password)
         {
-            if (TryGetServerId(out string id))
+            if (TryGetServerId(out ulong id))
                 return passwords.TryGetValue(id, out password);
             password = null;
             return false;
         }
 
-        private static bool TryGetServerId(out string id)
+        private static bool TryGetServerId(out ulong id)
         {
             if (MyMultiplayer.Static == null)
             {
-                id = null;
+                id = 0;
                 return false;
             }
 
-            id = MyMultiplayer.Static.HostName;
-            return !string.IsNullOrWhiteSpace(id);
+            id = MyMultiplayer.Static.ServerId;
+            return id != 0;
         }
     }
 }
